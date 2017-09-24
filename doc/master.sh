@@ -2,34 +2,23 @@
 
 apt-get update;
 
-apt-get install --no-install-recommends \
-    apt-transport-https \
-    curl \
-    software-properties-common;
+apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D;
 
-curl -fsSL 'https://sks-keyservers.net/pks/lookup?op=get&search=0xee6d536cf7dc86e2d7d56f59a178ac6c6238f52e';
-
-apt-key add - ;
-
-add-apt-repository \
-   "deb https://packages.docker.com/1.12/apt/repo/ \
-   ubuntu-$(lsb_release -cs) \
-   main" ;
+echo "deb https://apt.dockerproject.org/repo ubuntu-xenial main" >> /etc/apt/sources.list.d/docker.list;
 
 apt-get update ;
 
-apt-get install docker-ce ;
+apt-get install linux-image-extra-$(uname -r);
 
-apt-get install aptitude ;
+apt-get install docker-engine;
 
-aptitude install git make -y ;
+apt-get update ;
 
-git clone https://github.com/yeasy/cello && cd cello ;
+apt install aptitude;
 
-docker pull python:3.5 \ 
-&& docker pull mongo:3.2 \
-&& docker pull yeasy/nginx:latest \
-&& docker pull mongo-express:0.30 ;
+aptitude install git make -y;
+
+git clone http://gerrit.hyperledger.org/r/cello && cd cello ;
 
 apt install python-pip ;
 
@@ -37,8 +26,6 @@ apt install docker-compose ;
 
 export LC_ALL=C ;
 
-make setup ;
+make setup-master;
 
-make redeploy service=dashboard ;
-
-make restart
+make start;
