@@ -1,0 +1,17 @@
+How to start master:
+run script master.sh   ..duhhh...
+then go to browser, enter local ip and add port 8080
+
+How to run worker:
+1.run script WorkerStart.sh
+2.Update /lib/systemd/system/docker.service like
+[Service]
+DOCKER_OPTS="$DOCKER_OPTS -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock --api-cors-header='*' --default-ulimit=nofile=8192:16384 --default-ulimit=nproc=8192:16384"
+EnvironmentFile=-/etc/default/docker
+ExecStart=
+ExecStart=/usr/bin/dockerd -H fd:// $DOCKER_OPTS
+3.Regenerate the docker service script and restart the docker engine:
+$ sudo systemctl daemon-reload
+$ sudo systemctl restart docker.service
+4.$ make setup-worker
+5.$ sysctl -w net.ipv4.ip_forward=1
