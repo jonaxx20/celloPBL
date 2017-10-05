@@ -15,3 +15,5 @@ $ sudo systemctl daemon-reload
 $ sudo systemctl restart docker.service
 4.$ make setup-worker
 5.$ sysctl -w net.ipv4.ip_forward=1
+6.service docker stop
+7.dockerd -H private IP:2375 
