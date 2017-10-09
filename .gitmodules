@@ -1,0 +1,3 @@
+[submodule "cello"]
+	path = cello
+	url = http://gerrit.hyperledger.org/r/cello
